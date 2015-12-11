@@ -2,7 +2,7 @@
 Title: "Getting and Cleaning Data"
 Author: "Bjoern W. Steffens"
 Date: "11 December 2015"
-Output: pdf_document
+Output: Rmd
 ---
 
 # Getting and Cleaning Data
