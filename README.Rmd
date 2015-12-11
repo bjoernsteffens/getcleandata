@@ -7,7 +7,8 @@ Output: pdf_document
 
 # Getting and Cleaning Data
 
-    lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est lorem ypsilum est 
+    Introduction to the topic
+    with some descriptive text
 
 
 
