@@ -1,8 +1,8 @@
 ---
-title: "Getting and Cleaning Data"
-author: "Bjoern W. Steffens"
-date: "11 December 2015"
-output: pdf_document
+Title: "Getting and Cleaning Data"
+Author: "Bjoern W. Steffens"
+Date: "11 December 2015"
+Output: pdf_document
 ---
 
 # Getting and Cleaning Data
