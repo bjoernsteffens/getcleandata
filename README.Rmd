@@ -10,12 +10,68 @@ Output: pdf_document
     Introduction to the topic
     with some descriptive text
 
+# The Raw Data
 
+# The Tidy Data
+
+
+# The Code Book
+
+# R Code
 
 You can also embed plots, for example:
 
-```{r, echo=FALSE}
-plot(cars)
+```{r}
+run_Analysis <- function () {
+    
+    library(dplyr)
+    library(data.table)
+    
+    w_Dir           <- "~/mycloud/Private_DataScience/Coursera/10 Data Science Specialisation/20 Getting and Cleaning Data/99 assignment"
+    file_Target     <- "getdata_projectfiles_UCI HAR Dataset.zip"
+    file_Source     <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+    file_Timestamp  <- "getdata_projectfiles_UCI_download_date.csv"
+    data_Training   <- "./UCI HAR Dataset/train/X_train.txt"
+    data_Testing    <- "./UCI HAR Dataset/test/X_test.txt"
+    
+    # Position and pull the file
+    setwd(w_Dir)
+    download.file(file_Source, file_Target, method = "curl")
+
+    # Mark download date
+    date_Downloaded = c("Date Downloaded", date())
+    write.csv(date_Downloaded, file = file_Timestamp )
+    
+    # Unzip the file
+    unzip("getdata_projectfiles_UCI HAR Dataset.zip", overwrite = TRUE)
+
+    # use data.table to read the file. 
+    # HEADS-UP df_train <- read.csv(data_Training, header = FALSE, sep = " ") 
+    # HEADS-UP does not create the necessary structure and says 662|667 colS
+    # Inspect the column classes first and pre-load to speed up the larger load
+    dt_Training <- fread(data_Training, header = FALSE, sep = " ", nrows = 10)
+    c_Classes   <- sapply(dt_Training,  class)
+    dt_Training <- fread(data_Training, header = FALSE, sep = " ", colClasses = c_Classes)
+    
+    dt_Testing  <- fread(data_Testing, header = FALSE, sep = " ", nrows = 10)
+    c_Classes   <- sapply(dt_Testing,  class)
+    dt_Testing  <- fread(data_Testing, header = FALSE, sep = " ", colClasses = c_Classes)
+
+    # load the variable names and assign that to the columns.
+    # Use read.csv here as we are going to subset the cols -> data.table NoGo
+    df_features <- read.csv("./UCI HAR Dataset/features.txt", header = FALSE, sep = " ")
+    
+    # Assign as column names
+    colnames(dt_Testing)  <- as.character(df_features[,2])
+    colnames(dt_Training) <- as.character(df_features[,2])
+    
+    # Is there a need to clean the data?
+    # nrow(dt_Testing[!complete.cases(dt_Testing),])
+    # nrow(dt_Training[!complete.cases(dt_Training),])
+    
+    # Merge the two data sets
+    dt_merged <- rbind(dt_Testing,dt_Training)
+}
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
