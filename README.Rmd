@@ -1,21 +1,35 @@
 ---
 Title: "Getting and Cleaning Data"
 Author: "Bjoern W. Steffens"
-Date: "11 December 2015"
-Output: Rmd
+Date: "xx December 2015"
+Output: html_document
 ---
 
 # Getting and Cleaning Data
 
-    Introduction to the topic
-    with some descriptive text
+This data product is the result of an exercise in an overall education
+programme learning about the daily challenges of working as a data scientist. The data included in this exercise can be found here:
+
+[http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones).
+
+The data used for the project was downloaded from here:
+
+[https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip)
+
+
+
 
 # The Raw Data
 
-The raw data has been downloaded from http://
+The raw data we were asked to analyse and merge can be found in two files
 
-    Training Data:  file_01.bla
-    Test Date:      file_02.bla
+    Training Data:  X_train.txt
+    Test Date:      X_test.txt
+
+Each file contains a number of observation each having 561 variables. The names of the variables are listed in this file
+
+    Variable Names: features.txt
+
 
 # The Tidy Data
 
