@@ -7,9 +7,9 @@ run_Analysis <- function () {
     library(data.table)
     
     # Prepare all the variables 
-    w_Dir               <- "~/mycloud/Private_DataScience/Coursera/10 Data Science Specialisation/20 Getting and Cleaning Data/99 assignment"
-    file_Target         <- "getdata_projectfiles_UCI HAR Dataset.zip"
-    file_Source         <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+    #w_Dir               <- "~/mycloud/Private_DataScience/Coursera/10 Data Science Specialisation/20 Getting and Cleaning Data/99 assignment"
+    #file_Target         <- "getdata_projectfiles_UCI HAR Dataset.zip"
+    #file_Source         <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
     file_Timestamp      <- "getdata_projectfiles_UCI_download_date.csv"
     data_Training       <- "./UCI HAR Dataset/train/X_train.txt"
     data_Testing        <- "./UCI HAR Dataset/test/X_test.txt"
@@ -17,8 +17,8 @@ run_Analysis <- function () {
     data_TestSubject    <- "./UCI HAR Dataset/test/subject_test.txt"
     
     # Position and pull the file
-    setwd(w_Dir)
-    download.file(file_Source, file_Target, method = "curl")
+    #setwd(w_Dir)
+    #download.file(file_Source, file_Target, method = "curl")
 
     # Mark download date
     date_Downloaded = c("Date Downloaded", date())
@@ -48,6 +48,13 @@ run_Analysis <- function () {
     
         # Add the subject column
         dt_Testing <- cbind(dt_Testing, dt_Subject)
+        
+        # Use dplyr to calculate the mean, and standard deviation of each variable
+        # comment this out as was not sure how to deliver this
+        #dt_Summary <- dt_Testing %>%
+        #    group_by(Subject) %>%
+        #    summarise_each(funs(mean,sd)) %>%
+        #    arrange(Subject)
     
     # TRAINING DATA
    
@@ -65,6 +72,13 @@ run_Analysis <- function () {
         
         # Add the subject column
         dt_Training <- cbind(dt_Training, dt_Subject)
+        
+        # Use dplyr to calculate the mean, and standard deviation of each variable
+        # comment this out as was not sure how to deliver this
+        #dt_Summary <- dt_Training %>%
+        #    group_by(Subject) %>%
+        #    summarise_each(funs(mean,sd)) %>%
+        #    arrange(Subject)
         
     # Merge the two data sets
     dt_Merged <- rbind(dt_Testing,dt_Training)
