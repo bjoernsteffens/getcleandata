@@ -1,7 +1,7 @@
 ---
 Title: "Getting and Cleaning Data"
 Author: "Bjoern W. Steffens"
-Date: "xx December 2015"
+Date: "14 December 2015"
 Output: html_document
 ---
 
@@ -19,7 +19,9 @@ The data used for the project was downloaded from here:
 
 # The Raw Data
 
-The raw data we were asked to analyse and merge can be found in two files
+The raw data we were asked to analyse and merge can be found in two files. The files
+have been copied in here for convenience. The files are also in the downloaded
+zip file in the root directory.
 
     Training Data:      ./data_raw/X_train.txt
     Training Subject:   ./data_raw/subject_train.txt
@@ -68,7 +70,10 @@ The experiments have been carried out with a group of 30 volunteers within an ag
 The code reads the Training and the Test data sets into two separate data frames. Each dataframe is enriched with a single column holding the variable of the subject that carried out the experiement. This column is used in the tapply function to calcuate the means of each subject.
 
     Note:
-    Adjust the w_Dir variable for your environment if you whish to run the code
+    Adjust the global variables and the code line pulling the file
+    if you would like to test the entire flow end-to-end including 
+    pulling the original file, should it still be avilable at the
+    source.
 
 ### Code Dependencies
 
@@ -80,7 +85,7 @@ The analysis code are dependant on these libraries. Please make sure you have in
 ### Code Flow
 
 1. Prepare all the variables used in the code
-2. Download the zip file
+2. Unpack the copy of the data set
 3. Extract the 561 column names for both test and training data
 4. Prepare the test data set and attach the subject column
 4. Prepare the training data set and attach the subject column
@@ -90,6 +95,8 @@ The analysis code are dependant on these libraries. Please make sure you have in
 
 ### The Code
 ```{r}
+
+
 run_Analysis <- function () {
     
     # Load libraries used for this analysis. 
@@ -138,6 +145,13 @@ run_Analysis <- function () {
     
         # Add the subject column
         dt_Testing <- cbind(dt_Testing, dt_Subject)
+        
+        # Use dplyr to calculate the mean, and standard deviation of each variable
+        # comment this out as was not sure how to deliver this
+        #dt_Summary <- dt_Testing %>%
+        #    group_by(Subject) %>%
+        #    summarise_each(funs(mean,sd)) %>%
+        #    arrange(Subject)
     
     # TRAINING DATA
    
@@ -156,6 +170,13 @@ run_Analysis <- function () {
         # Add the subject column
         dt_Training <- cbind(dt_Training, dt_Subject)
         
+        # Use dplyr to calculate the mean, and standard deviation of each variable
+        # comment this out as was not sure how to deliver this
+        #dt_Summary <- dt_Training %>%
+        #    group_by(Subject) %>%
+        #    summarise_each(funs(mean,sd)) %>%
+        #    arrange(Subject)
+        
     # Merge the two data sets
     dt_Merged <- rbind(dt_Testing,dt_Training)
     
@@ -169,7 +190,7 @@ run_Analysis <- function () {
     write.table(dt_Summary,"./data_tidy/mean_TestTrain.txt", append = FALSE, row.name = FALSE)
     
     message("The aggregated means of test and training data can be found here ./data_tidy/mean_TestTrain.txt")
-    
+
 }
 ```
 
