@@ -33,6 +33,12 @@ zip file in the root directory.
 Each file contains a number of observation each having 561 variables. The names of the variables are listed in this file
 
     Variable Names:     ./data_raw/features.txt
+    
+The subject carrying out the testing or training observation is stored in the subject* files. These files are used to label the observations. This label is subsequently used to calculate
+and group the tidy data set.
+
+    Test Subject:       ./data_raw/subject_test.txt
+    Training Subject:   ./data_raw/subject_train.txt
 
 
 # The Tidy Data
