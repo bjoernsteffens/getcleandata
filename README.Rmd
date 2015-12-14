@@ -37,7 +37,7 @@ Each file contains a number of observation each having 561 variables. The names 
 The data set prepared for further analysis contains 30 observations of 561 numeric
 variables and 1 factor column identifying the subject that produced out the test
 or the training data set. Each column provides the mean of the larger and merged
-test and training data set.
+test and training data set (X_train.txt, X_test.txt).
 
     Training Data:      ./data_tidy/mean_TestTrain.txt
 
