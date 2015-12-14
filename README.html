@@ -70,7 +70,7 @@ img {
 </div>
 <div id="the-raw-data" class="section level1">
 <h1>The Raw Data</h1>
-<p>The raw data we were asked to analyse and merge can be found in two files</p>
+<p>The raw data we were asked to analyse and merge can be found in two files. The files have been copied in here for convenience. The files are also in the downloaded zip file in the root directory.</p>
 <pre><code>Training Data:      ./data_raw/X_train.txt
 Training Subject:   ./data_raw/subject_train.txt
 
@@ -86,7 +86,7 @@ Test Subject:       ./data_raw/subject_test.txt</code></pre>
 </div>
 <div id="the-code-book" class="section level1">
 <h1>The Code Book</h1>
-<p>For almost any data set, the measurements you calculate will need to be described in more detail than you will sneak into the spreadsheet. The code book contains this information. At minimum it should contain:</p>
+<p>This section provides additional information about the data used, the variables, operations carried out and what the resulting and clean data set represents.</p>
 <div id="raw-and-tidy-data-set-differences" class="section level3">
 <h3>Raw and Tidy Data Set Differences</h3>
 <p>All variables for the observations in the raw data sets have been used in the tidy data set. The tidy data set however aggregates the test and training data. All the 561 variables on both the raw and tidy data set are numeric(double).</p>
@@ -105,7 +105,10 @@ Test Subject:       ./data_raw/subject_test.txt</code></pre>
 <h1>R Code</h1>
 <p>The code reads the Training and the Test data sets into two separate data frames. Each dataframe is enriched with a single column holding the variable of the subject that carried out the experiement. This column is used in the tapply function to calcuate the means of each subject.</p>
 <pre><code>Note:
-Adjust the w_Dir variable for your environment if you whish to run the code</code></pre>
+Adjust the global variables and the code line pulling the file
+if you would like to test the entire flow end-to-end including 
+pulling the original file, should it still be avilable at the
+source.</code></pre>
 <div id="code-dependencies" class="section level3">
 <h3>Code Dependencies</h3>
 <p>The analysis code are dependant on these libraries. Please make sure you have installed those before attempting to run the code.</p>
@@ -116,7 +119,7 @@ library(data.table)     -&gt; install.packages(&quot;data.table&quot;)</code></p
 <h3>Code Flow</h3>
 <ol style="list-style-type: decimal">
 <li>Prepare all the variables used in the code</li>
-<li>Download the zip file</li>
+<li>Unpack the copy of the data set</li>
 <li>Extract the 561 column names for both test and training data</li>
 <li>Prepare the test data set and attach the subject column</li>
 <li>Prepare the training data set and attach the subject column</li>
@@ -134,9 +137,9 @@ library(data.table)     -&gt; install.packages(&quot;data.table&quot;)</code></p
     library(data.table)
     
     # Prepare all the variables 
-    w_Dir               &lt;- &quot;~/mycloud/Private_DataScience/Coursera/10 Data Science Specialisation/20 Getting and Cleaning Data/99 assignment&quot;
-    file_Target         &lt;- &quot;getdata_projectfiles_UCI HAR Dataset.zip&quot;
-    file_Source         &lt;- &quot;https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip&quot;
+    #w_Dir               &lt;- &quot;~/mycloud/Private_DataScience/Coursera/10 Data Science Specialisation/20 Getting and Cleaning Data/99 assignment&quot;
+    #file_Target         &lt;- &quot;getdata_projectfiles_UCI HAR Dataset.zip&quot;
+    #file_Source         &lt;- &quot;https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip&quot;
     file_Timestamp      &lt;- &quot;getdata_projectfiles_UCI_download_date.csv&quot;
     data_Training       &lt;- &quot;./UCI HAR Dataset/train/X_train.txt&quot;
     data_Testing        &lt;- &quot;./UCI HAR Dataset/test/X_test.txt&quot;
@@ -144,8 +147,8 @@ library(data.table)     -&gt; install.packages(&quot;data.table&quot;)</code></p
     data_TestSubject    &lt;- &quot;./UCI HAR Dataset/test/subject_test.txt&quot;
     
     # Position and pull the file
-    setwd(w_Dir)
-    download.file(file_Source, file_Target, method = &quot;curl&quot;)
+    #setwd(w_Dir)
+    #download.file(file_Source, file_Target, method = &quot;curl&quot;)
 
     # Mark download date
     date_Downloaded = c(&quot;Date Downloaded&quot;, date())
@@ -177,7 +180,7 @@ library(data.table)     -&gt; install.packages(&quot;data.table&quot;)</code></p
         dt_Testing &lt;- cbind(dt_Testing, dt_Subject)
         
         # Use dplyr to calculate the mean, and standard deviation of each variable
-        # comment this out as was not sure how to deliver this
+        # commented this out as was not sure how to deliver this
         #dt_Summary &lt;- dt_Testing %&gt;%
         #    group_by(Subject) %&gt;%
         #    summarise_each(funs(mean,sd)) %&gt;%
@@ -201,7 +204,7 @@ library(data.table)     -&gt; install.packages(&quot;data.table&quot;)</code></p
         dt_Training &lt;- cbind(dt_Training, dt_Subject)
         
         # Use dplyr to calculate the mean, and standard deviation of each variable
-        # comment this out as was not sure how to deliver this
+        # commented this out as was not sure how to deliver this
         #dt_Summary &lt;- dt_Training %&gt;%
         #    group_by(Subject) %&gt;%
         #    summarise_each(funs(mean,sd)) %&gt;%

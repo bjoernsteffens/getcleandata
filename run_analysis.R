@@ -1,5 +1,3 @@
-
-
 run_Analysis <- function () {
     
     # Load libraries used for this analysis. 
@@ -50,7 +48,7 @@ run_Analysis <- function () {
         dt_Testing <- cbind(dt_Testing, dt_Subject)
         
         # Use dplyr to calculate the mean, and standard deviation of each variable
-        # comment this out as was not sure how to deliver this
+        # commented this out as was not sure how to deliver this
         #dt_Summary <- dt_Testing %>%
         #    group_by(Subject) %>%
         #    summarise_each(funs(mean,sd)) %>%
@@ -74,7 +72,7 @@ run_Analysis <- function () {
         dt_Training <- cbind(dt_Training, dt_Subject)
         
         # Use dplyr to calculate the mean, and standard deviation of each variable
-        # comment this out as was not sure how to deliver this
+        # commented this out as was not sure how to deliver this
         #dt_Summary <- dt_Training %>%
         #    group_by(Subject) %>%
         #    summarise_each(funs(mean,sd)) %>%
