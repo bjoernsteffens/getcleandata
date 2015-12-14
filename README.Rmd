@@ -87,6 +87,7 @@ The analysis code are dependant on these libraries. Please make sure you have in
 
     library(dplyr)          -> install.packages("dplyr")
     library(data.table)     -> install.packages("data.table")
+
     
 ### Code Flow
 
@@ -124,6 +125,9 @@ run_Analysis <- function () {
     # Mark download date
     date_Downloaded = c("Date Downloaded", date())
     write.csv(date_Downloaded, file = file_Timestamp )
+    
+    # create the .data_tidy directory in case that was not pulled
+    if (!dir.exists("data_tidy")) { (dir.create("data_tidy")) }
     
     # Unzip the file
     unzip("getdata_projectfiles_UCI HAR Dataset.zip", overwrite = TRUE)

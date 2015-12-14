@@ -22,6 +22,9 @@ run_Analysis <- function () {
     date_Downloaded = c("Date Downloaded", date())
     write.csv(date_Downloaded, file = file_Timestamp )
     
+    # create the .data_tidy directory in case that was not pulled
+    if (!dir.exists("data_tidy")) { (dir.create("data_tidy")) }
+    
     # Unzip the file
     unzip("getdata_projectfiles_UCI HAR Dataset.zip", overwrite = TRUE)
     

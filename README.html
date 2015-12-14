@@ -78,6 +78,9 @@ Test Data:          ./data_raw/X_test.txt
 Test Subject:       ./data_raw/subject_test.txt</code></pre>
 <p>Each file contains a number of observation each having 561 variables. The names of the variables are listed in this file</p>
 <pre><code>Variable Names:     ./data_raw/features.txt</code></pre>
+<p>The subject carrying out the testing or training observation is stored in the subject* files. These files are used to label the observations. This label is subsequently used to calculate and group the tidy data set.</p>
+<pre><code>Test Subject:       ./data_raw/subject_test.txt
+Training Subject:   ./data_raw/subject_train.txt</code></pre>
 </div>
 <div id="the-tidy-data" class="section level1">
 <h1>The Tidy Data</h1>
@@ -153,6 +156,9 @@ library(data.table)     -&gt; install.packages(&quot;data.table&quot;)</code></p
     # Mark download date
     date_Downloaded = c(&quot;Date Downloaded&quot;, date())
     write.csv(date_Downloaded, file = file_Timestamp )
+    
+    # create the .data_tidy directory in case that was not pulled
+    if (!dir.exists(&quot;data_tidy&quot;)) { (dir.create(&quot;data_tidy&quot;)) }
     
     # Unzip the file
     unzip(&quot;getdata_projectfiles_UCI HAR Dataset.zip&quot;, overwrite = TRUE)
