@@ -8,23 +8,27 @@ Output: html_document
 # Getting and Cleaning Data
 
 This data product is the result of an exercise in an overall education
-programme learning about the daily challenges of working as a data scientist. The data included in this exercise can be found here:
+programme learning about the daily challenges of working as a data scientist. Information about the project where the data was provided can be found here:
 
-[http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones).
+[http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
 
 The data used for the project was downloaded from here:
 
 [https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip)
 
 
-
-
 # The Raw Data
 
 The raw data we were asked to analyse and merge can be found in two files
 
-    Training Data:  X_train.txt
-    Test Date:      X_test.txt
+    Training Data:      ./data_raw/X_train.txt
+    Training Subject:   ./data_raw/subject_train.txt
+    
+    Test Data:          ./data_raw/X_test.txt
+    Test Sibject:       ./data_raw/subject_test.txt
+    
+        data_TrainSubject   <- "./UCI HAR Dataset/train/subject_train.txt"
+    data_TestSubject    <- "./UCI HAR Dataset/test/subject_test.txt"
 
 Each file contains a number of observation each having 561 variables. The names of the variables are listed in this file
 
@@ -32,65 +36,42 @@ Each file contains a number of observation each having 561 variables. The names 
 
 
 # The Tidy Data
+The data set prepared for further analysis contains 30 observations of 561 numeric
+variables and 1 factor column identifying the subject that produced out the test
+or the training data set. Each column provides the mean of the larger and merged
+test and training data set.
+
+    Training Data:  ./data_tidy/mean_TestTrain.txt
 
 
 # The Code Book
+The analysis code are dependant on these libraries. Please make sure you have installed those before attempting to run the code.
+
+    library(dplyr)          -> install.packages("dplyr")
+    library(data.table)     -> install.packages("data.table")
 
 # R Code
 
-You can also embed plots, for example:
+The code reads the Training and the Test data sets into two separate data frames. Each dataframe is enriched with a single column holding the variable of the subject that carried out the experiement. This column is used in the tapply function to calcuate the means of each subject.
+
+Note:
+Adjust the w_Dir variable 
+
+## Code flow
+
+1. Prepare all the variables used in the code
+2. Download the zip file
+3. Extract the 561 column names for both test and training data
+4. Prepare the test data set and attach the subject column
+4. Prepare the training data set and attach the subject column
+5. Merge the data sets
+6. Use dplyr functions to calculate the means of all 561 variables
+7. Save resluts to disk
 
 ```{r}
-run_Analysis <- function () {
-    
-    library(dplyr)
-    library(data.table)
-    
-    w_Dir           <- "~/mycloud/Private_DataScience/Coursera/10 Data Science Specialisation/20 Getting and Cleaning Data/99 assignment"
-    file_Target     <- "getdata_projectfiles_UCI HAR Dataset.zip"
-    file_Source     <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-    file_Timestamp  <- "getdata_projectfiles_UCI_download_date.csv"
-    data_Training   <- "./UCI HAR Dataset/train/X_train.txt"
-    data_Testing    <- "./UCI HAR Dataset/test/X_test.txt"
-    
-    # Position and pull the file
-    setwd(w_Dir)
-    download.file(file_Source, file_Target, method = "curl")
-
-    # Mark download date
-    date_Downloaded = c("Date Downloaded", date())
-    write.csv(date_Downloaded, file = file_Timestamp )
-    
-    # Unzip the file
-    unzip("getdata_projectfiles_UCI HAR Dataset.zip", overwrite = TRUE)
-
-    # use data.table to read the file. 
-    # HEADS-UP df_train <- read.csv(data_Training, header = FALSE, sep = " ") 
-    # HEADS-UP does not create the necessary structure and says 662|667 colS
-    # Inspect the column classes first and pre-load to speed up the larger load
-    dt_Training <- fread(data_Training, header = FALSE, sep = " ", nrows = 10)
-    c_Classes   <- sapply(dt_Training,  class)
-    dt_Training <- fread(data_Training, header = FALSE, sep = " ", colClasses = c_Classes)
-    
-    dt_Testing  <- fread(data_Testing, header = FALSE, sep = " ", nrows = 10)
-    c_Classes   <- sapply(dt_Testing,  class)
-    dt_Testing  <- fread(data_Testing, header = FALSE, sep = " ", colClasses = c_Classes)
-
-    # load the variable names and assign that to the columns.
-    # Use read.csv here as we are going to subset the cols -> data.table NoGo
-    df_features <- read.csv("./UCI HAR Dataset/features.txt", header = FALSE, sep = " ")
-    
-    # Assign as column names
-    colnames(dt_Testing)  <- as.character(df_features[,2])
-    colnames(dt_Training) <- as.character(df_features[,2])
-    
-    # Is there a need to clean the data?
-    # nrow(dt_Testing[!complete.cases(dt_Testing),])
-    # nrow(dt_Training[!complete.cases(dt_Training),])
-    
-    # Merge the two data sets
-    dt_merged <- rbind(dt_Testing,dt_Training)
-}
+#
+#place the code here with all the comments
+#
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
