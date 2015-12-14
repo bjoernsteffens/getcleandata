@@ -18,7 +18,7 @@ run_Analysis <- function () {
     
     # Position and pull the file
     setwd(w_Dir)
-    #download.file(file_Source, file_Target, method = "curl")
+    download.file(file_Source, file_Target, method = "curl")
 
     # Mark download date
     date_Downloaded = c("Date Downloaded", date())
@@ -42,15 +42,12 @@ run_Analysis <- function () {
         # Assign as column names to the test data set
         colnames(dt_Testing) <- as.character(df_Features[,2])
         
-        # Load the file with the subjects who created the data set and 
-        # attach that column at the end. Set to numeric to get a nice sort order
-        # in the merged data set.
+        # Load the file with the subjects who created the data set. Numeric for pretty-sort
         dt_Subject <- fread(data_TestSubject, header = FALSE, colClasses = "numeric")
         colnames(dt_Subject) <- c("Subject")
     
         # Add the subject column
         dt_Testing <- cbind(dt_Testing, dt_Subject)
-    
     
     # TRAINING DATA
    
@@ -62,9 +59,7 @@ run_Analysis <- function () {
         # Assign as column names to the test data set
         colnames(dt_Training) <- as.character(df_Features[,2])
         
-        # Load the file with the subjects who created the data set and 
-        # attach that column at the end. Set to numeric to get a nice sort order
-        # in the merged data set.
+        # Load the file with the subjects who created the data set. Numeric for pretty-sort
         dt_Subject <- fread(data_TrainSubject, header = FALSE, colClasses = "numeric")
         colnames(dt_Subject) <- c("Subject")
         
@@ -83,4 +78,6 @@ run_Analysis <- function () {
     # Save the results to disk
     write.table(dt_Summary,"./data_tidy/mean_TestTrain.txt", append = FALSE, row.name = FALSE)
     
+    message("The aggregated means of test and training data can be found here ./data_tidy/mean_TestTrain.txt")
+
 }

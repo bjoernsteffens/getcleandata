@@ -61,8 +61,8 @@ img {
 
 
 
-<div id="getting-and-cleaning-data" class="section level1">
-<h1>Getting and Cleaning Data</h1>
+<div id="get-and-clean-data" class="section level1">
+<h1>Get and Clean Data</h1>
 <p>This data product is the result of an exercise in an overall education programme learning about the daily challenges of working as a data scientist. Information about the project where the data was provided can be found here:</p>
 <p><a href="http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones"><a href="http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones" class="uri">http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones</a></a></p>
 <p>The data used for the project was downloaded from here:</p>
@@ -82,21 +82,21 @@ Test Subject:       ./data_raw/subject_test.txt</code></pre>
 <div id="the-tidy-data" class="section level1">
 <h1>The Tidy Data</h1>
 <p>The data set prepared for further analysis contains 30 observations of 561 numeric variables and 1 factor column identifying the subject that produced out the test or the training data set. Each column provides the mean of the larger and merged test and training data set.</p>
-<pre><code>Training Data:  ./data_tidy/mean_TestTrain.txt</code></pre>
+<pre><code>Training Data:      ./data_tidy/mean_TestTrain.txt</code></pre>
 </div>
 <div id="the-code-book" class="section level1">
 <h1>The Code Book</h1>
 <p>For almost any data set, the measurements you calculate will need to be described in more detail than you will sneak into the spreadsheet. The code book contains this information. At minimum it should contain:</p>
-<div id="raw-and-tidy-data-set-differences" class="section level2">
-<h2>Raw and Tidy Data Set Differences</h2>
+<div id="raw-and-tidy-data-set-differences" class="section level3">
+<h3>Raw and Tidy Data Set Differences</h3>
 <p>All variables for the observations in the raw data sets have been used in the tidy data set. The tidy data set however aggregates the test and training data. All the 561 variables on both the raw and tidy data set are numeric(double).</p>
 </div>
-<div id="summarizations-and-aggregations-applied" class="section level2">
-<h2>Summarizations and Aggregations Applied</h2>
+<div id="summarizations-and-aggregations-applied" class="section level3">
+<h3>Summarizations and Aggregations Applied</h3>
 <p>The tidy data set provides the mean of all the 561 variables in the raw data set ordered acending by the numeric label assigned to each subject.</p>
 </div>
-<div id="study-design" class="section level2">
-<h2>Study Design</h2>
+<div id="study-design" class="section level3">
+<h3>Study Design</h3>
 <p><a href="http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones">Information Source Study Design</a></p>
 <p>The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data.</p>
 </div>
@@ -106,14 +106,14 @@ Test Subject:       ./data_raw/subject_test.txt</code></pre>
 <p>The code reads the Training and the Test data sets into two separate data frames. Each dataframe is enriched with a single column holding the variable of the subject that carried out the experiement. This column is used in the tapply function to calcuate the means of each subject.</p>
 <pre><code>Note:
 Adjust the w_Dir variable for your environment if you whish to run the code</code></pre>
-<div id="code-dependencies" class="section level2">
-<h2>Code Dependencies</h2>
+<div id="code-dependencies" class="section level3">
+<h3>Code Dependencies</h3>
 <p>The analysis code are dependant on these libraries. Please make sure you have installed those before attempting to run the code.</p>
 <pre><code>library(dplyr)          -&gt; install.packages(&quot;dplyr&quot;)
 library(data.table)     -&gt; install.packages(&quot;data.table&quot;)</code></pre>
 </div>
-<div id="code-flow" class="section level2">
-<h2>Code Flow</h2>
+<div id="code-flow" class="section level3">
+<h3>Code Flow</h3>
 <ol style="list-style-type: decimal">
 <li>Prepare all the variables used in the code</li>
 <li>Download the zip file</li>
@@ -125,8 +125,8 @@ library(data.table)     -&gt; install.packages(&quot;data.table&quot;)</code></p
 <li>Save resluts to disk</li>
 </ol>
 </div>
-<div id="the-code" class="section level2">
-<h2>The Code</h2>
+<div id="the-code" class="section level3">
+<h3>The Code</h3>
 <pre class="r"><code>run_Analysis &lt;- function () {
     
     # Load libraries used for this analysis. 
@@ -204,6 +204,8 @@ library(data.table)     -&gt; install.packages(&quot;data.table&quot;)</code></p
     
     # Save the results to disk
     write.table(dt_Summary,&quot;./data_tidy/mean_TestTrain.txt&quot;, append = FALSE, row.name = FALSE)
+    
+    message(&quot;The aggregated means of test and training data can be found here ./data_tidy/mean_TestTrain.txt&quot;)
     
 }</code></pre>
 </div>

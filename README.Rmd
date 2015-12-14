@@ -5,7 +5,7 @@ Date: "xx December 2015"
 Output: html_document
 ---
 
-# Getting and Cleaning Data
+# Get and Clean Data
 
 This data product is the result of an exercise in an overall education
 programme learning about the daily challenges of working as a data scientist. Information about the project where the data was provided can be found here:
@@ -25,14 +25,12 @@ The raw data we were asked to analyse and merge can be found in two files
     Training Subject:   ./data_raw/subject_train.txt
     
     Test Data:          ./data_raw/X_test.txt
-    Test Sibject:       ./data_raw/subject_test.txt
-    
-        data_TrainSubject   <- "./UCI HAR Dataset/train/subject_train.txt"
-    data_TestSubject    <- "./UCI HAR Dataset/test/subject_test.txt"
+    Test Subject:       ./data_raw/subject_test.txt
+
 
 Each file contains a number of observation each having 561 variables. The names of the variables are listed in this file
 
-    Variable Names: features.txt
+    Variable Names:     ./data_raw/features.txt
 
 
 # The Tidy Data
@@ -41,23 +39,45 @@ variables and 1 factor column identifying the subject that produced out the test
 or the training data set. Each column provides the mean of the larger and merged
 test and training data set.
 
-    Training Data:  ./data_tidy/mean_TestTrain.txt
+    Training Data:      ./data_tidy/mean_TestTrain.txt
 
 
 # The Code Book
-The analysis code are dependant on these libraries. Please make sure you have installed those before attempting to run the code.
 
-    library(dplyr)          -> install.packages("dplyr")
-    library(data.table)     -> install.packages("data.table")
+For almost any data set, the measurements you calculate will need to be described in more detail than you will sneak into the spreadsheet. The code book contains this information. At minimum it should contain:
+
+### Raw and Tidy Data Set Differences
+All variables for the observations in the raw data sets have been used in the tidy data set.
+The tidy data set however aggregates the test and training data. All the 561 variables
+on both the raw and tidy data set are numeric(double).
+
+###Summarizations and Aggregations Applied
+The tidy data set provides the mean of all the 561 variables in the raw data set ordered
+acending by the numeric label assigned to each subject.
+
+### Study Design
+[Information Source Study Design](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
+
+
+The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
+
+
 
 # R Code
 
 The code reads the Training and the Test data sets into two separate data frames. Each dataframe is enriched with a single column holding the variable of the subject that carried out the experiement. This column is used in the tapply function to calcuate the means of each subject.
 
-Note:
-Adjust the w_Dir variable 
+    Note:
+    Adjust the w_Dir variable for your environment if you whish to run the code
 
-## Code flow
+### Code Dependencies
+
+The analysis code are dependant on these libraries. Please make sure you have installed those before attempting to run the code.
+
+    library(dplyr)          -> install.packages("dplyr")
+    library(data.table)     -> install.packages("data.table")
+    
+### Code Flow
 
 1. Prepare all the variables used in the code
 2. Download the zip file
@@ -68,10 +88,89 @@ Adjust the w_Dir variable
 6. Use dplyr functions to calculate the means of all 561 variables
 7. Save resluts to disk
 
+### The Code
 ```{r}
-#
-#place the code here with all the comments
-#
+run_Analysis <- function () {
+    
+    # Load libraries used for this analysis. 
+    library(dplyr)
+    library(data.table)
+    
+    # Prepare all the variables 
+    w_Dir               <- "~/mycloud/Private_DataScience/Coursera/10 Data Science Specialisation/20 Getting and Cleaning Data/99 assignment"
+    file_Target         <- "getdata_projectfiles_UCI HAR Dataset.zip"
+    file_Source         <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+    file_Timestamp      <- "getdata_projectfiles_UCI_download_date.csv"
+    data_Training       <- "./UCI HAR Dataset/train/X_train.txt"
+    data_Testing        <- "./UCI HAR Dataset/test/X_test.txt"
+    data_TrainSubject   <- "./UCI HAR Dataset/train/subject_train.txt"
+    data_TestSubject    <- "./UCI HAR Dataset/test/subject_test.txt"
+    
+    # Position and pull the file
+    setwd(w_Dir)
+    download.file(file_Source, file_Target, method = "curl")
+
+    # Mark download date
+    date_Downloaded = c("Date Downloaded", date())
+    write.csv(date_Downloaded, file = file_Timestamp )
+    
+    # Unzip the file
+    unzip("getdata_projectfiles_UCI HAR Dataset.zip", overwrite = TRUE)
+    
+    # load the variable names for the data sets
+    # Use read.csv here as we are going to subset the cols -> data.table NoGo
+    df_Features <- read.csv("./UCI HAR Dataset/features.txt", header = FALSE, sep = " ")
+    
+
+    # TEST DATA
+    
+        # Inspect the column classes first and pre-load to speed up the larger load
+        dt_Testing  <- fread(data_Testing, header = FALSE, sep = " ", nrows = 10)
+        c_Classes   <- sapply(dt_Testing,  class)
+        dt_Testing  <- fread(data_Testing, header = FALSE, sep = " ", colClasses = c_Classes)
+    
+        # Assign as column names to the test data set
+        colnames(dt_Testing) <- as.character(df_Features[,2])
+        
+        # Load the file with the subjects who created the data set. Numeric for pretty-sort
+        dt_Subject <- fread(data_TestSubject, header = FALSE, colClasses = "numeric")
+        colnames(dt_Subject) <- c("Subject")
+    
+        # Add the subject column
+        dt_Testing <- cbind(dt_Testing, dt_Subject)
+    
+    # TRAINING DATA
+   
+        # Inspect the column classes first and pre-load to speed up the larger load
+        dt_Training  <- fread(data_Testing, header = FALSE, sep = " ", nrows = 10)
+        c_Classes   <- sapply(dt_Training,  class)
+        dt_Training  <- fread(data_Training, header = FALSE, sep = " ", colClasses = c_Classes)
+        
+        # Assign as column names to the test data set
+        colnames(dt_Training) <- as.character(df_Features[,2])
+        
+        # Load the file with the subjects who created the data set. Numeric for pretty-sort
+        dt_Subject <- fread(data_TrainSubject, header = FALSE, colClasses = "numeric")
+        colnames(dt_Subject) <- c("Subject")
+        
+        # Add the subject column
+        dt_Training <- cbind(dt_Training, dt_Subject)
+        
+    # Merge the two data sets
+    dt_Merged <- rbind(dt_Testing,dt_Training)
+    
+    # Use dplyr to calculate the mean of each variable
+    dt_Summary <- dt_Merged %>%
+        group_by(Subject) %>%
+        summarise_each(funs(mean)) %>%
+        arrange(Subject)
+    
+    # Save the results to disk
+    write.table(dt_Summary,"./data_tidy/mean_TestTrain.txt", append = FALSE, row.name = FALSE)
+    
+    message("The aggregated means of test and training data can be found here ./data_tidy/mean_TestTrain.txt")
+    
+}
 ```
 
 
